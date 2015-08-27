@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cisco</title>
+    <link rel="stylesheet" href = "http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="ng-infinite-scroll.js"></script>
+    <script src="products.js"></script>
+</head>
+<body  ng-app="myApp" ng-controller="myCtrl">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#top"><div class="navbar-brand">Back to Top</div></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a data-toggle="modal" data-target="#myModal" ng-click="AddNew()">Add new Product</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a ng-click="toggle()">Change View Style</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container"  id="top">
+
+
+
+    <div>
+        <hr>
+        <hr>
+    </div>
+
+    <div infinite-scroll="loadMore()" infinite-scroll-distance="1">
+        <!--<img ng-repeat="product in display" ng-src="{{product.imageUrl}}"> -->
+
+        <div class="row" ng-repeat="product in display track by $index" ng-show="style">
+            <div class="col-xs-12"><hr></div>
+            <div class="col-xs-6">
+                <img class="img-responsive" ng-src="{{product.imageUrl}}" data-toggle="modal" data-target="#myModal" ng-click="change(product)">
+            </div>
+            <div class="col-xs-6">
+                <ul class="list-group">
+                    <li class="list-group-item">FullName:{{product.fullName}}</li>
+                    <li class="list-group-item">ShortName:{{product.shortName}}</li>
+                    <li class="list-group-item">Price:{{product.price}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" ng-hide="style">
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" ng-repeat="product in display track by $index">
+                <img class="img-responsive" ng-src="{{product.imageUrl}}" data-toggle="modal" data-target="#myModal" ng-click="change(product)">
+                <div>
+                    <p class="text-info text-center">{{product.shortName}}</p>
+                    <p class="text-info text-center">Price:{{product.price}}</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit this item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Full Name:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" ng-model="fullName" ng-disabled="false" placeholder="Full Name" style="width: 300px">
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Short Name:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" ng-model="shortName" ng-disabled="false" placeholder="Short Name" style="width: 300px">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Price:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" ng-model="price" ng-disabled="false" placeholder="Price" style="width: 300px">
+                                </div>
+                            </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">ImageUrl:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" ng-model="imageUrl" ng-disabled="false" placeholder="ImageUrl" style="width: 300px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" ng-disabled="incomplete" ng-click="save()" data-dismiss="modal">
+                              <span class="glyphicon glyphicon-pencil"></span>Save
+                        </button>
+                        <button class="btn btn-warning" ng-click="delete()" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-trash"></span>Delete
+                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+</body>
+</html>
